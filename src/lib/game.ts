@@ -10,6 +10,37 @@ export const formationList=Object.values(formations);
 export const fits=(player:Player,role:Role)=>player.position===role||player.alt.includes(role);
 export const availableSlots=(player:Player,xi:Record<string,Player>,slots:Slot[])=>slots.filter(s=>!xi[s.id]&&fits(player,s.role));
 export const drawSquad=(all:Squad[],previous?:string)=>{const pool=all.filter(s=>s.id!==previous);return pool[Math.floor(Math.random()*pool.length)]??all[0]};
-export type Result={score:number;attack:number;defense:number;tier:string;wins:number;losses:number};
-const average=(values:number[])=>Math.round(values.reduce((sum,n)=>sum+n,0)/values.length*10)/10;
-export const calculate=(xi:Record<string,Player>,slots:Slot[]):Result=>{const entries=Object.entries(xi).map(([id,p])=>({player:p,slot:slots.find(s=>s.id===id)!}));const score=average(entries.map(({player})=>player.rating));const attack=average(entries.filter(({slot})=>slot.y<40).map(({player})=>player.rating));const defense=average(entries.filter(({slot})=>slot.y>60).map(({player})=>player.rating));const [tier,wins]=score>=90?["S",8]:score>=87?["A+",7]:score>=84?["A",6]:score>=81?["B+",5]:score>=78?["B",4]:score>=75?["C",3]:["D",2];return{score,attack,defense,tier,wins,losses:8-wins}};
+export type Finish="champions"|"final"|"semifinal"|"quarterfinal"|"knockouts"|"group"|"qualifying"|"preliminary";
+export type WeakestLink={player:Player;slot:Slot;impact:number;effectiveRating:number;secondary:boolean;status:"weak-link"|"vulnerable"|"balanced"};
+export type Result={score:number;attack:number;defense:number;tier:string;finish:Finish;weakest:WeakestLink;imbalance:"attack"|"defense"|"balanced"};
+export const scoringConfig={
+ roleWeight:{GK:1.15,LB:1,CB:1.05,RB:1,CM:1.05,LW:1.1,ST:1.2,RW:1.1} satisfies Record<Role,number>,
+ secondaryPositionPenalty:1.25,
+ thresholds:[
+  {minimum:85,tier:"S+",finish:"champions"},{minimum:84,tier:"A+",finish:"final"},
+  {minimum:83,tier:"A",finish:"semifinal"},{minimum:81.5,tier:"B+",finish:"quarterfinal"},
+  {minimum:79.5,tier:"B",finish:"knockouts"},{minimum:77,tier:"C",finish:"group"},
+  {minimum:74,tier:"D",finish:"qualifying"},{minimum:-Infinity,tier:"F",finish:"preliminary"}
+ ] as {minimum:number;tier:string;finish:Finish}[]
+};
+const round=(value:number)=>Math.round(value*10)/10;
+const weightedAverage=(values:{value:number;weight:number}[])=>values.reduce((sum,item)=>sum+item.value*item.weight,0)/values.reduce((sum,item)=>sum+item.weight,0);
+const clamp=(value:number,min:number,max:number)=>Math.min(max,Math.max(min,value));
+const internationalAdjustment=(player:Player)=>{
+ const caps=player.stats.caps==null?0:clamp((player.stats.caps-45)/90,-.35,.65);
+ const goalScale=player.position==="ST"||player.position==="LW"||player.position==="RW"?28:player.position==="CM"?45:100;
+ const goals=player.stats.internationalGoals==null?0:clamp(player.stats.internationalGoals/goalScale,0,1.1);
+ return caps+goals+(/\(c\)$/i.test(player.name)?.2:0);
+};
+export const calculate=(xi:Record<string,Player>,slots:Slot[]):Result=>{
+ const entries=Object.entries(xi).map(([id,player])=>{const assignedSlot=slots.find(item=>item.id===id)!;const secondary=player.position!==assignedSlot.role;const effectiveRating=player.rating+internationalAdjustment(player)-(secondary?scoringConfig.secondaryPositionPenalty:0);return{player,slot:assignedSlot,secondary,effectiveRating,weight:scoringConfig.roleWeight[assignedSlot.role]}});
+ const weightedXI=weightedAverage(entries.map(item=>({value:item.effectiveRating,weight:item.weight})));
+ const attacking=entries.map(item=>({value:item.effectiveRating,weight:["ST","LW","RW"].includes(item.slot.role)?1:item.slot.role==="CM"?.25:0})).filter(item=>item.weight);
+ const defending=entries.map(item=>({value:item.effectiveRating,weight:["GK","LB","CB","RB"].includes(item.slot.role)?1:item.slot.role==="CM"?.25:0})).filter(item=>item.weight);
+ const attack=weightedAverage(attacking);const defense=weightedAverage(defending);
+ const impacts=entries.map(item=>({...item,impact:Math.max(0,weightedXI-item.effectiveRating)*item.weight+(item.secondary?.75:0)})).sort((a,b)=>b.impact-a.impact);
+ const largestImpact=impacts[0]?.impact??0;const weakPenalty=largestImpact*.22+impacts.slice(1,3).reduce((sum,item)=>sum+item.impact*.06,0);
+ const imbalanceGap=Math.abs(attack-defense);const score=round(weightedXI-weakPenalty-Math.max(0,imbalanceGap-4)*.1);
+ const outcome=scoringConfig.thresholds.find(item=>score>=item.minimum)!;const weakestEntry=impacts[0];const status=largestImpact>=4?"weak-link":largestImpact>=2?"vulnerable":"balanced";
+ return{score,attack:round(attack),defense:round(defense),tier:outcome.tier,finish:outcome.finish,weakest:{player:weakestEntry.player,slot:weakestEntry.slot,impact:round(largestImpact),effectiveRating:round(weakestEntry.effectiveRating),secondary:weakestEntry.secondary,status},imbalance:imbalanceGap<3?"balanced":attack>defense?"defense":"attack"};
+};
