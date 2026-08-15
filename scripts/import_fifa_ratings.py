@@ -24,6 +24,11 @@ DATA_PATH = ROOT / "src/data/generatedSquads.json"
 REPORT_PATH = ROOT / "src/data/ratingCoverage.json"
 YEAR_TO_EDITION = {2010: 10, 2014: 14, 2018: 18, 2022: 23}
 COUNTRY_ALIASES = {"Korea Republic": "South Korea"}
+# Verified historical records whose abbreviated source display name cannot be
+# matched safely from name similarity alone.
+RATING_OVERRIDES = {
+    ("South Korea", 2014, "park joo ho"): (73, "191566"),
+}
 
 
 def norm(value: str) -> str:
@@ -44,6 +49,11 @@ def surname(value: str) -> str:
     return parts[-1] if parts else ""
 
 
+def name_tokens(value: str) -> list[str]:
+    """Compare names independent of display order and hyphenation."""
+    return sorted(norm(value).split())
+
+
 def similarity(a: str, b: str) -> float:
     return SequenceMatcher(None, norm(a), norm(b)).ratio()
 
@@ -51,6 +61,8 @@ def similarity(a: str, b: str) -> float:
 def match_score(target: dict, candidate: dict) -> float:
     target_name, candidate_name = target["name"], candidate["name"]
     target_parts, candidate_parts = norm(target_name).split(), norm(candidate_name).split()
+    if name_tokens(target_name) == name_tokens(candidate_name):
+        return 100 + similarity(target["club"], candidate["club"])
     score = similarity(target_name, candidate_name) * 52
     if surname(target_name) == surname(candidate_name):
         score += 32
@@ -99,12 +111,22 @@ def main() -> None:
         country_rows = [row for row in editions[edition] if row["country"] == squad["country"]]
         matched = 0
         for player in squad["players"]:
+            override = RATING_OVERRIDES.get((squad["country"], squad["year"], norm(player["name"])))
+            if override:
+                player["rating"], player["sofifaId"] = override
+                player["ratingSource"] = f"FIFA {edition} / SoFIFA"
+                matched += 1
+                report["matches"].append({"player": player["name"], "year": squad["year"], "matched": "verified override", "rating": player["rating"], "score": 100.0})
+                continue
             ranked = sorted(((match_score(player, row), row) for row in country_rows), key=lambda item: item[0], reverse=True)
             best_score, best = ranked[0] if ranked else (0, None)
             runner_up = ranked[1][0] if len(ranked) > 1 else 0
             # Strong surname agreement is required. The margin catches duplicate
             # initials/surnames, which are common in Korea and Portugal.
-            exact = bool(best and norm(player["name"]) == norm(best["name"]))
+            exact = bool(best and (
+                norm(player["name"]) == norm(best["name"])
+                or name_tokens(player["name"]) == name_tokens(best["name"])
+            ))
             confident = bool(best and (exact or (
                 surname(player["name"]) == surname(best["name"])
                 and best_score >= 68
