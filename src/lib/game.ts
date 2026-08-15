@@ -17,8 +17,8 @@ export const scoringConfig={
  roleWeight:{GK:1.15,LB:1,CB:1.05,RB:1,CM:1.05,LW:1.1,ST:1.2,RW:1.1} satisfies Record<Role,number>,
  secondaryPositionPenalty:1.25,
  thresholds:[
-  {minimum:85,tier:"S+",finish:"champions"},{minimum:84,tier:"A+",finish:"final"},
-  {minimum:83,tier:"A",finish:"semifinal"},{minimum:81.5,tier:"B+",finish:"quarterfinal"},
+  {minimum:89,tier:"S+",finish:"champions"},{minimum:87,tier:"A+",finish:"final"},
+  {minimum:84.5,tier:"A",finish:"semifinal"},{minimum:82,tier:"B+",finish:"quarterfinal"},
   {minimum:79.5,tier:"B",finish:"knockouts"},{minimum:77,tier:"C",finish:"group"},
   {minimum:74,tier:"D",finish:"qualifying"},{minimum:-Infinity,tier:"F",finish:"preliminary"}
  ] as {minimum:number;tier:string;finish:Finish}[]
@@ -41,6 +41,10 @@ export const calculate=(xi:Record<string,Player>,slots:Slot[]):Result=>{
  const impacts=entries.map(item=>({...item,impact:Math.max(0,weightedXI-item.effectiveRating)*item.weight+(item.secondary?.75:0)})).sort((a,b)=>b.impact-a.impact);
  const largestImpact=impacts[0]?.impact??0;const weakPenalty=largestImpact*.22+impacts.slice(1,3).reduce((sum,item)=>sum+item.impact*.06,0);
  const imbalanceGap=Math.abs(attack-defense);const score=round(weightedXI-weakPenalty-Math.max(0,imbalanceGap-4)*.1);
- const outcome=scoringConfig.thresholds.find(item=>score>=item.minimum)!;const weakestEntry=impacts[0];const status=largestImpact>=4?"weak-link":largestImpact>=2?"vulnerable":"balanced";
- return{score,attack:round(attack),defense:round(defense),tier:outcome.tier,finish:outcome.finish,weakest:{player:weakestEntry.player,slot:weakestEntry.slot,impact:round(largestImpact),effectiveRating:round(weakestEntry.effectiveRating),secondary:weakestEntry.secondary,status},imbalance:imbalanceGap<3?"balanced":attack>defense?"defense":"attack"};
+ const weakestEntry=impacts[0];const status=largestImpact>=4?"weak-link":largestImpact>=2?"vulnerable":"balanced";
+ let outcome=scoringConfig.thresholds.find(item=>score>=item.minimum)!;
+ // Winning the tournament requires strength on both sides and no glaring weak starter, not merely a high average.
+ if(outcome.finish==="champions"&&(Math.min(attack,defense)<87||weakestEntry.effectiveRating<84))outcome=scoringConfig.thresholds[1];
+ if(outcome.finish==="final"&&(Math.min(attack,defense)<84||weakestEntry.effectiveRating<81.5))outcome=scoringConfig.thresholds[2];
+ return{score,attack:round(attack),defense:round(defense),tier:outcome.tier,finish:outcome.finish,weakest:{player:weakestEntry.player,slot:weakestEntry.slot,impact:round(largestImpact),effectiveRating:round(weakestEntry.effectiveRating),secondary:weakestEntry.secondary,status},imbalance:imbalanceGap<3?"balanced":attack>defense?"attack":"defense"};
 };
