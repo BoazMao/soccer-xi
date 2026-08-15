@@ -35,6 +35,7 @@ MAINLAND_OVERRIDES = {
     "Kevin De Bruyne": "凯文·德布劳内", "Harry Kane": "哈里·凯恩",
     "Son Heung-min": "孙兴慜", "Kim Min-jae": "金玟哉",
     "Javier Pastore": "哈维尔·帕斯托雷",
+    "Vincent Kompany": "文森特·孔帕尼", "Mile Jedinak": "迈尔·耶迪纳克",
 }
 
 
@@ -107,6 +108,10 @@ if __name__ == "__main__":
                 if en_name and zh_name: players[en_name] = zh_name
                 if en_club and zh_club: clubs[en_club] = zh_club
     players.update(MAINLAND_OVERRIDES)
+    for name in list(players):
+        base_name = re.sub(r"\s*\(c\)$", "", name, flags=re.I)
+        if base_name in players:
+            players[name] = players[base_name]
     target = ROOT / "src/data/generatedZh.json"
     target.write_text(json.dumps({"players": players, "clubs": clubs}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"Wrote {len(players)} player and {len(clubs)} club translations")
