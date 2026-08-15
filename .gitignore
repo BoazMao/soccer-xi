@@ -1,5 +1,7 @@
 node_modules/
 .next/
 out/
+work/
+scripts/__pycache__/
 *.tsbuildinfo
 .DS_Store

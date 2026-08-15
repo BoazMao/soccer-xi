@@ -1,9 +1,9 @@
 """Build static Soccer XI squad pools from historical final-squad tables.
 
-Squad membership, broad position and tournament club are sourced from the
-Wikipedia World Cup squad tables, which cite the official FIFA lists. Game
-ratings, detailed position eligibility and career stats remain deterministic
-MVP placeholders pending the verified FIFA/EA and statistics import.
+Squad membership, broad position, tournament club, caps, and international
+goals are sourced from the Wikipedia World Cup squad tables, which cite the
+official FIFA lists. Club career statistics are left unavailable, and detailed
+position eligibility remains provisional pending separate verified imports.
 """
 from __future__ import annotations
 
@@ -67,13 +67,13 @@ def roles(position: str, index: int) -> tuple[str, list[str]]:
     return primary, [r for r in ("LW", "ST", "RW") if r != primary]
 
 
-def placeholder_stats(rating: int, caps: int, position: str, index: int) -> dict[str, int]:
+def squad_stats(caps: int, international_goals: int | None) -> dict[str, int | None]:
     return {
-        "clubGoals": 0 if position == "GK" else max(0, (rating - 69) * (index % 5 + 1)),
-        "clubAssists": 0 if position == "GK" else max(0, round((rating - 70) * (index % 4 + 1) * .7)),
-        "trophies": max(0, round((rating - 72) / 3) + index % 3),
-        "cups": max(0, round((rating - 73) / 5)),
-        "internationalGoals": 0 if position == "GK" else max(0, round(caps * ((index % 4) + 1) / 18)),
+        "clubGoals": None,
+        "clubAssists": None,
+        "trophies": None,
+        "cups": None,
+        "internationalGoals": international_goals,
         "caps": caps,
     }
 
@@ -107,6 +107,9 @@ def build() -> list[dict]:
                 caps_raw = str(row.get("Caps", "0"))
                 caps_match = re.search(r"\d+", caps_raw)
                 caps = int(caps_match.group()) if caps_match else 0
+                goals_raw = str(row.get("Goals", ""))
+                goals_match = re.search(r"\d+", goals_raw)
+                international_goals = int(goals_match.group()) if goals_match else None
                 primary, alt = roles(broad, position_counts[broad])
                 position_counts[broad] += 1
                 rating = stable_rating(f"{name}-{year}", caps)
@@ -114,7 +117,7 @@ def build() -> list[dict]:
                     "id": f"{code}-{year}-{row_index}", "name": name,
                     "country": country, "year": year, "position": primary,
                     "club": club, "rating": rating, "alt": alt,
-                    "stats": placeholder_stats(rating, caps, broad, row_index),
+                    "stats": squad_stats(caps, international_goals),
                 })
             output.append({"id": f"{code}-{year}", "country": country, "year": year, "flag": flag, "players": players})
     return sorted(output, key=lambda s: (s["year"], s["country"]))

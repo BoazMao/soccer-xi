@@ -35,7 +35,18 @@ const curatedSquads:Squad[] = [
 ];
 
 const curatedIds = new Set(curatedSquads.map(squad => squad.id));
+const cleanName = (name:string) => name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s*\([^)]*\)\s*/g,"").toLowerCase();
+const generatedBySquad = new Map((generatedSquads as Squad[]).map(squad => [squad.id,squad]));
+const sourcedCurated = curatedSquads.map(squad => {
+  const imported = generatedBySquad.get(squad.id);
+  if (!imported) return squad;
+  const byName = new Map(imported.players.map(player => [cleanName(player.name),player]));
+  return {...squad,players:squad.players.map(player => {
+    const source = byName.get(cleanName(player.name));
+    return source ? {...player,rating:source.rating,ratingSource:source.ratingSource,sofifaId:source.sofifaId,stats:source.stats} : player;
+  })};
+});
 export const squads:Squad[] = [
- ...curatedSquads,
+ ...sourcedCurated,
  ...(generatedSquads as Squad[]).filter(squad => !curatedIds.has(squad.id)),
 ].sort((a,b)=>a.year-b.year||a.country.localeCompare(b.country));
