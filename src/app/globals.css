@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #08130e; color: #f4f1e8; font-family: "Trebuchet MS", Arial, sans-serif; }
+button { font: inherit; }
+.display { font-family: Impact, "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .015em; }
+.noise { background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 5px 5px; }
+.pitch-lines { background: linear-gradient(90deg, transparent 49.7%, rgba(255,255,255,.18) 50%, transparent 50.3%), repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 54px, transparent 54px 108px); }
+details summary::-webkit-details-marker { display:none; }
