@@ -10,5 +10,6 @@ export const formationList=Object.values(formations);
 export const fits=(player:Player,role:Role)=>player.position===role||player.alt.includes(role);
 export const availableSlots=(player:Player,xi:Record<string,Player>,slots:Slot[])=>slots.filter(s=>!xi[s.id]&&fits(player,s.role));
 export const drawSquad=(all:Squad[],previous?:string)=>{const pool=all.filter(s=>s.id!==previous);return pool[Math.floor(Math.random()*pool.length)]??all[0]};
-export type Result={score:number;tier:string;wins:number;losses:number};
-export const calculate=(xi:Record<string,Player>,slots:Slot[]):Result=>{const entries=Object.entries(xi);const avg=entries.reduce((n,[id,p])=>n+p.rating+(fits(p,slots.find(s=>s.id===id)!.role)?0:-4),0)/11;const score=Math.round(avg*10)/10;const [tier,wins]=score>=87?["S",8]:score>=84?["A+",7]:score>=81?["A",6]:score>=78?["B+",5]:score>=75?["B",4]:score>=72?["C",3]:["D",2];return{score,tier,wins,losses:8-wins}};
+export type Result={score:number;attack:number;defense:number;tier:string;wins:number;losses:number};
+const average=(values:number[])=>Math.round(values.reduce((sum,n)=>sum+n,0)/values.length*10)/10;
+export const calculate=(xi:Record<string,Player>,slots:Slot[]):Result=>{const entries=Object.entries(xi).map(([id,p])=>({player:p,slot:slots.find(s=>s.id===id)!}));const score=average(entries.map(({player})=>player.rating));const attack=average(entries.filter(({slot})=>slot.y<40).map(({player})=>player.rating));const defense=average(entries.filter(({slot})=>slot.y>60).map(({player})=>player.rating));const [tier,wins]=score>=87?["S",8]:score>=84?["A+",7]:score>=81?["A",6]:score>=78?["B+",5]:score>=75?["B",4]:score>=72?["C",3]:["D",2];return{score,attack,defense,tier,wins,losses:8-wins}};

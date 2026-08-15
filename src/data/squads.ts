@@ -1,4 +1,5 @@
 import { Player, Role, Squad } from "./types";
+import generatedSquads from "./generatedSquads.json";
 
 type Seed = [string, Role, string, number, Role[]?];
 const make = (country:string, year:number, rows:Seed[]):Player[] => rows.map(([name,position,club,rating,alt],i) => ({
@@ -6,7 +7,7 @@ const make = (country:string, year:number, rows:Seed[]):Player[] => rows.map(([n
   stats:{ clubGoals: Math.max(0, Math.round((rating-68)*(i%5+1)*1.7)), clubAssists:Math.max(0,Math.round((rating-70)*(i%4+1)*1.15)), trophies:Math.max(0,Math.round((rating-72)/3)+(i%3)), cups:Math.max(0,Math.round((rating-73)/5)), internationalGoals: position==="GK"?0:Math.max(0,Math.round((rating-72)*(i%4)/3)), caps:Math.max(1,Math.round((rating-66)*(i%3+2))) }
 }));
 
-export const squads:Squad[] = [
+const curatedSquads:Squad[] = [
  {id:"esp-2010",country:"Spain",year:2010,flag:"🇪🇸",players:make("Spain",2010,[
   ["Iker Casillas","GK","Real Madrid",90],["Pepe Reina","GK","Liverpool",84],["Víctor Valdés","GK","Barcelona",84],
   ["Joan Capdevila","LB","Villarreal",80],["Carles Puyol","CB","Barcelona",86],["Gerard Piqué","CB","Barcelona",84],["Raúl Albiol","CB","Real Madrid",81],["Carlos Marchena","CB","Valencia",81],["Sergio Ramos","RB","Real Madrid",86,["CB"]],["Álvaro Arbeloa","RB","Real Madrid",79,["LB"]],
@@ -32,3 +33,9 @@ export const squads:Squad[] = [
   ["Julián Álvarez","ST","Manchester City",79,["RW"]],["Ángel Correa","RW","Atlético Madrid",83,["ST"]],["Ángel Di María","RW","Juventus",84,["LW"]],["Paulo Dybala","ST","Roma",86,["RW"]],["Alejandro Gómez","LW","Sevilla",84,["CM"]],["Lautaro Martínez","ST","Inter Milan",86],["Lionel Messi","RW","Paris Saint-Germain",91,["ST"]]
  ])}
 ];
+
+const curatedIds = new Set(curatedSquads.map(squad => squad.id));
+export const squads:Squad[] = [
+ ...curatedSquads,
+ ...(generatedSquads as Squad[]).filter(squad => !curatedIds.has(squad.id)),
+].sort((a,b)=>a.year-b.year||a.country.localeCompare(b.country));
