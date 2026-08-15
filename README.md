@@ -1,6 +1,6 @@
 # World Cup XI
 
-A browser drafting game built with Next.js, TypeScript and Tailwind CSS. Draft a 4-3-3 from randomized World Cup champion squads, then find out if they can win 8 games straight.
+A browser drafting game built with Next.js, TypeScript and Tailwind CSS. Choose a formation, spin for randomized World Cup champion squads, then find out if your XI can win 8 games straight.
 
 ## Included MVP data
 

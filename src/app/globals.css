@@ -9,4 +9,6 @@ button { font: inherit; }
 .display { font-family: Impact, "Arial Narrow", sans-serif; text-transform: uppercase; letter-spacing: .015em; }
 .noise { background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 5px 5px; }
 .pitch-lines { background: linear-gradient(90deg, transparent 49.7%, rgba(255,255,255,.18) 50%, transparent 50.3%), repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 54px, transparent 54px 108px); }
+.slot-reel { animation: reel-shake .095s linear infinite; }
+@keyframes reel-shake { 0% { transform:translateY(-4px); filter:blur(.2px) } 50% { transform:translateY(4px); filter:blur(1px) } 100% { transform:translateY(-4px); filter:blur(.2px) } }
 details summary::-webkit-details-marker { display:none; }
