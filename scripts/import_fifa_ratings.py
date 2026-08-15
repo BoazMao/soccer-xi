@@ -28,6 +28,12 @@ COUNTRY_ALIASES = {"Korea Republic": "South Korea"}
 # matched safely from name similarity alone.
 RATING_OVERRIDES = {
     ("South Korea", 2014, "park joo ho"): (73, "191566"),
+    ("Portugal", 2014, "rafa silva"): (76, "216547"),
+    ("Brazil", 2018, "alisson becker"): (84, "212831"),
+    ("Morocco", 2018, "munir mohamedi"): (70, "223573"),
+    ("Brazil", 2022, "vinicius junior"): (86, "238794"),
+    ("Morocco", 2022, "munir mohamedi"): (73, "223573"),
+    ("Spain", 2022, "dani carvajal"): (84, "204963"),
 }
 
 
@@ -59,18 +65,49 @@ def similarity(a: str, b: str) -> float:
 
 
 def match_score(target: dict, candidate: dict) -> float:
-    target_name, candidate_name = target["name"], candidate["name"]
-    target_parts, candidate_parts = norm(target_name).split(), norm(candidate_name).split()
-    if name_tokens(target_name) == name_tokens(candidate_name):
-        return 100 + similarity(target["club"], candidate["club"])
-    score = similarity(target_name, candidate_name) * 52
-    if surname(target_name) == surname(candidate_name):
-        score += 32
-    if target_parts and candidate_parts and target_parts[0][0] == candidate_parts[0][0]:
-        score += 8
-    club_score = similarity(target["club"], candidate["club"])
-    score += club_score * 8
-    return score
+    target_name = target["name"]
+    scores = []
+    for candidate_name in {candidate["name"], candidate["displayName"]}:
+        target_parts, candidate_parts = norm(target_name).split(), norm(candidate_name).split()
+        if name_tokens(target_name) == name_tokens(candidate_name):
+            scores.append(100 + similarity(target["club"], candidate["club"]))
+            continue
+        if (len(target_parts) >= 2 and set(target_parts).issubset(candidate_parts)
+                and surname(target_name) == surname(candidate["displayName"])):
+            scores.append(96 + similarity(target["club"], candidate["club"]))
+            continue
+        score = similarity(target_name, candidate_name) * 52
+        if surname(target_name) == surname(candidate["displayName"]):
+            score += 32
+        if target_parts and candidate_parts and target_parts[0][0] == candidate_parts[0][0]:
+            score += 8
+        score += similarity(target["club"], candidate["club"]) * 8
+        scores.append(score)
+    return max(scores)
+
+
+def exact_name_match(target_name: str, candidate: dict) -> bool:
+    if any(
+        norm(target_name) == norm(value) or name_tokens(target_name) == name_tokens(value)
+        for value in {candidate["name"], candidate["displayName"]}
+    ):
+        return True
+    target_parts = norm(target_name).split()
+    return bool(
+        len(target_parts) >= 2
+        and set(target_parts).issubset(norm(candidate["name"]).split())
+        and surname(target_name) == surname(candidate["displayName"])
+    )
+
+
+def surname_match(target_name: str, candidate: dict) -> bool:
+    return surname(target_name) == surname(candidate["displayName"])
+
+
+def given_initial_match(target_name: str, candidate: dict) -> bool:
+    target = norm(target_name).split()
+    candidates = norm(candidate["name"]).split() + norm(candidate["displayName"]).split()
+    return bool(target and candidates and any(part[0] == target[0][0] for part in candidates))
 
 
 def load_ratings(source_dir: Path, edition: int) -> list[dict]:
@@ -84,8 +121,12 @@ def load_ratings(source_dir: Path, edition: int) -> list[dict]:
         if not rating_match:
             continue
         team = re.split(r"\s+\d{4}(?:\s*~.*)?$", row.get("Team & Contract", ""))[0]
+        display_name = player_name(row.get("Name", ""))
+        slug_match = re.search(r"/player/\d+/([^/]+)/", row.get("href", ""))
+        profile_name = slug_match.group(1).replace("-", " ") if slug_match else display_name
         result.append({
-            "name": player_name(row.get("Name", "")),
+            "name": profile_name,
+            "displayName": display_name,
             "country": country,
             "club": team,
             "rating": int(rating_match.group()),
@@ -123,12 +164,11 @@ def main() -> None:
             runner_up = ranked[1][0] if len(ranked) > 1 else 0
             # Strong surname agreement is required. The margin catches duplicate
             # initials/surnames, which are common in Korea and Portugal.
-            exact = bool(best and (
-                norm(player["name"]) == norm(best["name"])
-                or name_tokens(player["name"]) == name_tokens(best["name"])
-            ))
+            exact = bool(best and exact_name_match(player["name"], best))
+            display_is_surname_only = bool(best and len(norm(best["displayName"]).split()) == 1)
             confident = bool(best and (exact or (
-                surname(player["name"]) == surname(best["name"])
+                surname_match(player["name"], best)
+                and (given_initial_match(player["name"], best) or (display_is_surname_only and best_score - runner_up >= 15))
                 and best_score >= 68
                 and best_score - runner_up >= 3
             )))

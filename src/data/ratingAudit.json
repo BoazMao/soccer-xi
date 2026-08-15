@@ -1,0 +1,695 @@
+{
+  "source": "Edition-specific historical SoFIFA snapshots",
+  "editions": {
+    "2010": "FIFA 10",
+    "2014": "FIFA 14",
+    "2018": "FIFA 18",
+    "2022": "FIFA 23"
+  },
+  "summary": {
+    "total": 1500,
+    "unresolved": 110,
+    "verified": 1390
+  },
+  "byEdition": {
+    "10": {
+      "unresolved": 28,
+      "verified": 248
+    },
+    "14": {
+      "verified": 299,
+      "unresolved": 23
+    },
+    "18": {
+      "verified": 432,
+      "unresolved": 28
+    },
+    "23": {
+      "verified": 411,
+      "unresolved": 31
+    }
+  },
+  "issues": [],
+  "unresolved": [
+    {
+      "player": "Diego Pozo",
+      "country": "Argentina",
+      "year": 2010,
+      "provisionalRating": 75
+    },
+    {
+      "player": "Clemente Rodríguez",
+      "country": "Argentina",
+      "year": 2010,
+      "provisionalRating": 80
+    },
+    {
+      "player": "Ariel Garcé",
+      "country": "Argentina",
+      "year": 2010,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Heurelho Gomes",
+      "country": "Brazil",
+      "year": 2010,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Seigo Narazaki",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 89
+    },
+    {
+      "player": "Yuki Abe",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Yūichi Komano",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Marcus Tulio Tanaka",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Yuto Nagatomo",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Atsuto Uchida",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 81
+    },
+    {
+      "player": "Yasuhito Endō",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 86
+    },
+    {
+      "player": "Shinji Okazaki",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 83
+    },
+    {
+      "player": "Keiji Tamada",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Kisho Yano",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Daiki Iwamasa",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 74
+    },
+    {
+      "player": "Kengo Nakamura",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 77
+    },
+    {
+      "player": "Yasuyuki Konno",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Yoshito Ōkubo",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Eiji Kawashima",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Yuji Nakazawa (c)",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Yoshikatsu Kawaguchi",
+      "country": "Japan",
+      "year": 2010,
+      "provisionalRating": 86
+    },
+    {
+      "player": "Ahn Jung-hwan",
+      "country": "South Korea",
+      "year": 2010,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Lee Jung-soo",
+      "country": "South Korea",
+      "year": 2010,
+      "provisionalRating": 54
+    },
+    {
+      "player": "Kim Dong-jin",
+      "country": "South Korea",
+      "year": 2010,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Cesc Fàbregas",
+      "country": "Spain",
+      "year": 2010,
+      "provisionalRating": 88
+    },
+    {
+      "player": "Joan Capdevila",
+      "country": "Spain",
+      "year": 2010,
+      "provisionalRating": 80
+    },
+    {
+      "player": "Egidio Arévalo Ríos",
+      "country": "Uruguay",
+      "year": 2010,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Ignacio González",
+      "country": "Uruguay",
+      "year": 2010,
+      "provisionalRating": 70
+    },
+    {
+      "player": "Federico Fernández",
+      "country": "Argentina",
+      "year": 2014,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Daniel Van Buyten",
+      "country": "Belgium",
+      "year": 2014,
+      "provisionalRating": 89
+    },
+    {
+      "player": "Faryd Mondragón",
+      "country": "Colombia",
+      "year": 2014,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Ognjen Vukojević",
+      "country": "Croatia",
+      "year": 2014,
+      "provisionalRating": 88
+    },
+    {
+      "player": "Oliver Zelenika",
+      "country": "Croatia",
+      "year": 2014,
+      "provisionalRating": 74
+    },
+    {
+      "player": "Marcelo Brozović",
+      "country": "Croatia",
+      "year": 2014,
+      "provisionalRating": 72
+    },
+    {
+      "player": "Domagoj Vida",
+      "country": "Croatia",
+      "year": 2014,
+      "provisionalRating": 81
+    },
+    {
+      "player": "Lucas Digne",
+      "country": "France",
+      "year": 2014,
+      "provisionalRating": 73
+    },
+    {
+      "player": "Mickaël Landreau",
+      "country": "France",
+      "year": 2014,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Masato Morishige",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Yasuhito Endo",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Yoichiro Kakitani",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Shusaku Nishikawa",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Yoshito Ōkubo",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Toshihiro Aoyama",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Yasuyuki Konno",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Hotaru Yamaguchi",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Masahiko Inoha",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Manabu Saitō",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 75
+    },
+    {
+      "player": "Shūichi Gonda",
+      "country": "Japan",
+      "year": 2014,
+      "provisionalRating": 74
+    },
+    {
+      "player": "Hugo Almeida",
+      "country": "Portugal",
+      "year": 2014,
+      "provisionalRating": 72
+    },
+    {
+      "player": "Park Chu-young",
+      "country": "South Korea",
+      "year": 2014,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Park Jong-woo",
+      "country": "South Korea",
+      "year": 2014,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Javier Mascherano",
+      "country": "Argentina",
+      "year": 2018,
+      "provisionalRating": 88
+    },
+    {
+      "player": "Pedro Geromel",
+      "country": "Brazil",
+      "year": 2018,
+      "provisionalRating": 73
+    },
+    {
+      "player": "Fagner",
+      "country": "Brazil",
+      "year": 2018,
+      "provisionalRating": 77
+    },
+    {
+      "player": "Carlos Sánchez",
+      "country": "Colombia",
+      "year": 2018,
+      "provisionalRating": 66
+    },
+    {
+      "player": "Farid Díaz",
+      "country": "Colombia",
+      "year": 2018,
+      "provisionalRating": 83
+    },
+    {
+      "player": "Miguel Borja",
+      "country": "Colombia",
+      "year": 2018,
+      "provisionalRating": 59
+    },
+    {
+      "player": "Dominik Livaković",
+      "country": "Croatia",
+      "year": 2018,
+      "provisionalRating": 74
+    },
+    {
+      "player": "Filip Bradarić",
+      "country": "Croatia",
+      "year": 2018,
+      "provisionalRating": 75
+    },
+    {
+      "player": "Josip Pivarić",
+      "country": "Croatia",
+      "year": 2018,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Michael Krohn-Dehli",
+      "country": "Denmark",
+      "year": 2018,
+      "provisionalRating": 85
+    },
+    {
+      "player": "William Kvist",
+      "country": "Denmark",
+      "year": 2018,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Nicolai Jørgensen",
+      "country": "Denmark",
+      "year": 2018,
+      "provisionalRating": 81
+    },
+    {
+      "player": "Naomichi Ueda",
+      "country": "Japan",
+      "year": 2018,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Makoto Hasebe",
+      "country": "Japan",
+      "year": 2018,
+      "provisionalRating": 88
+    },
+    {
+      "player": "Ayoub El Kaabi",
+      "country": "Morocco",
+      "year": 2018,
+      "provisionalRating": 80
+    },
+    {
+      "player": "Mbark Boussoufa",
+      "country": "Morocco",
+      "year": 2018,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Nabil Dirar",
+      "country": "Morocco",
+      "year": 2018,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Ahmed Reda Tagnaouti",
+      "country": "Morocco",
+      "year": 2018,
+      "provisionalRating": 73
+    },
+    {
+      "player": "Mehdi Carcela",
+      "country": "Morocco",
+      "year": 2018,
+      "provisionalRating": 81
+    },
+    {
+      "player": "Miguel Trauco",
+      "country": "Peru",
+      "year": 2018,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Paolo Guerrero",
+      "country": "Peru",
+      "year": 2018,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Khadim N'Diaye",
+      "country": "Senegal",
+      "year": 2018,
+      "provisionalRating": 76
+    },
+    {
+      "player": "Yun Young-sun",
+      "country": "South Korea",
+      "year": 2018,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Jung Woo-young",
+      "country": "South Korea",
+      "year": 2018,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Kim Young-gwon",
+      "country": "South Korea",
+      "year": 2018,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Jo Hyeon-woo",
+      "country": "South Korea",
+      "year": 2018,
+      "provisionalRating": 74
+    },
+    {
+      "player": "Carlos Sánchez",
+      "country": "Uruguay",
+      "year": 2018,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Giorgian de Arrascaeta",
+      "country": "Uruguay",
+      "year": 2018,
+      "provisionalRating": 80
+    },
+    {
+      "player": "Papu Gómez",
+      "country": "Argentina",
+      "year": 2022,
+      "provisionalRating": 83
+    },
+    {
+      "player": "Neymar",
+      "country": "Brazil",
+      "year": 2022,
+      "provisionalRating": 89
+    },
+    {
+      "player": "Weverton",
+      "country": "Brazil",
+      "year": 2022,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Dani Alves",
+      "country": "Brazil",
+      "year": 2022,
+      "provisionalRating": 86
+    },
+    {
+      "player": "Éverton Ribeiro",
+      "country": "Brazil",
+      "year": 2022,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Miki Yamane",
+      "country": "Japan",
+      "year": 2022,
+      "provisionalRating": 79
+    },
+    {
+      "player": "Shōgo Taniguchi",
+      "country": "Japan",
+      "year": 2022,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Yūto Nagatomo",
+      "country": "Japan",
+      "year": 2022,
+      "provisionalRating": 88
+    },
+    {
+      "player": "Shūichi Gonda",
+      "country": "Japan",
+      "year": 2022,
+      "provisionalRating": 84
+    },
+    {
+      "player": "Hiroki Sakai",
+      "country": "Japan",
+      "year": 2022,
+      "provisionalRating": 88
+    },
+    {
+      "player": "Shūto Machino",
+      "country": "Japan",
+      "year": 2022,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Abderrazak Hamdallah",
+      "country": "Morocco",
+      "year": 2022,
+      "provisionalRating": 83
+    },
+    {
+      "player": "Bilal El Khannous",
+      "country": "Morocco",
+      "year": 2022,
+      "provisionalRating": 75
+    },
+    {
+      "player": "Badr Benoun",
+      "country": "Morocco",
+      "year": 2022,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Moustapha Name",
+      "country": "Senegal",
+      "year": 2022,
+      "provisionalRating": 78
+    },
+    {
+      "player": "Kim Jin-su",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 63
+    },
+    {
+      "player": "Jung Woo-young",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 85
+    },
+    {
+      "player": "Hwang In-beom",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 56
+    },
+    {
+      "player": "Cho Gue-sung",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Hwang Hee-chan",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Song Bum-keun",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 71
+    },
+    {
+      "player": "Hwang Ui-jo",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 87
+    },
+    {
+      "player": "Kwon Kyung-won",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 82
+    },
+    {
+      "player": "Cho Yu-min",
+      "country": "South Korea",
+      "year": 2022,
+      "provisionalRating": 56
+    },
+    {
+      "player": "Diego Godín",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 89
+    },
+    {
+      "player": "Luis Suárez",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 62
+    },
+    {
+      "player": "Giorgian de Arrascaeta",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 86
+    },
+    {
+      "player": "Sebastián Sosa",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 74
+    },
+    {
+      "player": "Guillermo Varela",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 64
+    },
+    {
+      "player": "Agustín Canobbio",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 75
+    },
+    {
+      "player": "José Luis Rodríguez",
+      "country": "Uruguay",
+      "year": 2022,
+      "provisionalRating": 72
+    }
+  ]
+}
